@@ -1,0 +1,302 @@
+# 📄 AI Resume Screening System: Complete Presentation & Viva Prep Guide
+
+This guide is designed to help you understand your project completely, prepare a 5-minute classroom presentation, and answer any technical questions your teacher or external examiner might ask during the viva.
+
+---
+
+## 🧸 Part 1: Explain Like I'm 5 (ELI5)
+
+Let’s understand how this system works using simple stories and analogies, just like explaining it to a 5-year-old child!
+
+### 1. What is the "AI Resume Screening System"?
+* **The Analogy**: Imagine you are a teacher of a very big school. Five hundred children send you applications to join the school's Secret Agent Club. Reading all 500 applications would take you days and make your eyes very tired.
+* **The Solution**: Instead, you build a helper robot. You feed all the applications to the robot. The robot reads them in one second, tells you what each candidate is good at (like drawing, climbing, or math), and suggests: *"Hire this person!"* or *"Reject this person!"*
+* **In our Project**: We created a Streamlit web application that takes a candidate’s resume (in PDF format), extracts the skills, compares them with a job description, classifies the resume category, and makes a hire/reject prediction using machine learning models.
+
+### 2. What is NLP (Natural Language Processing)?
+* **The Analogy**: When you talk to your dog and say *"Sit!"*, the dog understands because it is trained to match the sound of that word to an action. NLP is teaching computer systems to do the same thing with human language (books, resumes, or chat messages) instead of just numbers.
+* **In our Project**: We use NLP to search for specific words (skills like `Python`, `SQL`, or `AWS`) inside the resume and check if they match the words in the Job Description.
+
+### 3. What is Machine Learning (ML)?
+* **The Analogy**: Imagine showing a baby 50 pictures of cats and 50 pictures of dogs. The baby starts noticing patterns: dogs have longer noses, and cats have pointy ears. The next time the baby sees a new animal, it can guess if it is a cat or a dog. Nobody wrote a "rulebook" for the baby; the baby learned from **examples**.
+* **In our Project**: Our models learned by looking at two tables (datasets):
+  1. `UpdatedResumeDataSet.csv`: A dataset containing resumes labeled with their job category (like Data Science, Web Designing, HR, etc.).
+  2. `AI_Resume_Screening.csv`: A dataset of past decisions showing what skills, experience, and projects led to a recruiter deciding to "Hire" or "Reject".
+
+### 4. What is PDF Text Extraction?
+* **The Analogy**: Resumes are stored in PDF format, which is like a locked book. A computer cannot read it directly because it sees it as a collection of visual instructions on a screen.
+* **In our Project**: We use a library called `pdfplumber`. It acts like a reading glass that scans the PDF, unlocks the characters, and writes them down as a single, long string of plain text that Python can read.
+
+### 5. What is Text Cleaning (Preprocessing)?
+* **The Analogy**: If a child gives you a drawing, but it has mud, spilled juice, and scribble marks all over it, you would clean it up before hanging it on the wall.
+* **In our Project**: Resumes have messy parts like website links (`http://...`), emails (`abc@email.com`), phone numbers, and special symbols (like emojis or bullet points). We use **Regular Expressions (Regex)** to wipe those out, leaving only clean, lowercase letters.
+
+### 6. What is TF-IDF (Word to Number Conversion)?
+* **The Analogy**: Computers are calculators; they don't understand words like "Python" or "Java". They only understand numbers. If you tell a robot "Python", it gets confused. If you give it a value like `0.85`, it is happy.
+* **TF-IDF (Term Frequency-Inverse Document Frequency)**: It represents a smart way to count words:
+  * **TF (Term Frequency)**: How many times does a word show up in a document? (If a resume mentions "Machine Learning" 10 times, it must be important).
+  * **IDF (Inverse Document Frequency)**: How rare is this word across all documents? Words like "the", "and", or "is" show up in *every* resume, so they get a low score. Words like "TensorFlow" are rare, so they get a high score.
+* **In our Project**: `TfidfVectorizer` turns the plain text resume into a large matrix of numbers so the model can make calculations.
+
+### 7. What is One-Hot Encoding?
+* **The Analogy**: Imagine you have 3 colored buckets: Red (for B.Tech), Blue (for MBA), and Green (for PhD). If a candidate has an MBA, you drop a ball in the Blue bucket (`[0, 1, 0]`). If they have a PhD, you drop it in the Green bucket (`[0, 0, 1]`).
+* **In our Project**: Models cannot do math on categorical words like "MBA" or "PhD". One-Hot Encoding converts these words into binary vectors (columns of `0`s and `1`s) so the model can process them.
+
+### 8. What is Logistic Regression?
+* **The Analogy**: Imagine a balance scale. On one side, we put positive factors: lots of experience, many projects, and certifications. On the other side, we put negative factors: missing skills, zero experience. If the positive side is heavier, the scale tips to **"Hire"**. If not, it tips to **"Reject"**.
+* **In our Project**: Logistic Regression is the algorithm that adjusts the weights of these factors to decide between two choices: `0` (Reject) or `1` (Hire). It output a probability (like 85% chance of being a Hire).
+
+### 9. What is a Machine Learning Pipeline?
+* **The Analogy**: Think of a toy assembly line. First, raw plastic goes in, it gets melted, then shaped, painted, and boxed. You don't do this manually step-by-step; the conveyor belt does it automatically.
+* **In our Project**: A scikit-learn `Pipeline` chains the steps together:
+  `Raw Text` ➔ `TfidfVectorizer` ➔ `LogisticRegression Model`
+  This ensures that when new data comes in, it goes through the exact same transformations as the training data before making predictions.
+
+---
+
+## 🎤 Part 2: 5-Minute Presentation Script
+
+Use this slide-by-slide script for your presentation. Speak clearly, pause after major points, and make eye contact with your teacher!
+
+### Slide 1: Introduction & Title
+* **Slide Visuals**: 
+  * Title: **AI Resume Screening System**
+  * Subtitle: *Bridging Machine Learning and Recruitment*
+  * Bullet points: Automated Screening, NLP Text Processing, Dual-Model Architecture.
+* **Speaking Script**:
+  > *"Good morning, everyone, and respected teacher. Today, I am excited to present my project: the **AI Resume Screening System**.*
+  >
+  > *In the modern corporate world, HR departments receive hundreds of resumes for a single job opening. Manually filtering these resumes is highly time-consuming and prone to human bias. My project solves this problem by using Natural Language Processing and Machine Learning to read, parse, categorize, and recommend candidates in real-time, matching them accurately with job descriptions."*
+* **Time**: 0:00 - 0:45 (45 seconds)
+
+### Slide 2: System Architecture & Workflow
+* **Slide Visuals**:
+  * Simple Flowchart:
+    `User Uploads PDF` ➔ `pdfplumber extracts Text` ➔ `Regex Cleans Text` ➔ `Skill Extraction` & `Predict Category` ➔ `Screening Model predicts Decision (Hire/Reject)`
+* **Speaking Script**:
+  > *"Let's talk about how the system operates. The architecture has three main stages:*
+  > *First, **Data Ingestion**: The user uploads a candidate's resume in PDF format. We use the `pdfplumber` library to extract plain text.*
+  > *Second, **Preprocessing**: Raw text is messy. It contains hyperlinks, email IDs, contact numbers, and special characters. We pass the text through a custom regular-expression-based cleaning function to convert it to lowercase and wipe out unnecessary clutter.*
+  > *Third, **Feature Extraction**: We extract specific technical skills and pass the cleaned data to our Machine Learning pipeline."*
+* **Time**: 0:45 - 1:30 (45 seconds)
+
+### Slide 3: Natural Language Processing (NLP) & Feature Engineering
+* **Slide Visuals**:
+  * Core Topics: TF-IDF Vectorization, Categorical Encoding, Keyword Skill Matching
+  * Key math/concepts: Term Frequency-Inverse Document Frequency, One-Hot Encoding
+* **Speaking Script**:
+  > *"To prepare this text for our machine learning models, we perform Feature Engineering. Since models only process numerical data, we use a **TF-IDF Vectorizer** (Term Frequency-Inverse Document Frequency). This algorithm converts words into numbers based on how frequently they appear in a resume, offset by how common they are across the whole dataset.*
+  >
+  > *For tabular categorical details—such as candidate education levels, certifications, and target job roles—we utilize **One-Hot Encoding** to convert them into binary columns. Numeric values, like experience in years and project count, are scaled and handled using imputers to fill any missing fields."*
+* **Time**: 1:30 - 2:30 (60 seconds)
+
+### Slide 4: Dual-Model Machine Learning Engine
+* **Slide Visuals**:
+  * **Model 1**: Resume Categorization (`category_model.pkl`) ➔ *Predicts Job Domain (e.g. Data Scientist, HR, Java Developer)*
+  * **Model 2**: Candidate Screening (`screening_model.pkl`) ➔ *Predicts Recruiter Recommendation (Hire or Reject)*
+  * Algorithm: Logistic Regression
+* **Speaking Script**:
+  > *"The engine of this application uses a dual-model system, both built using **Logistic Regression** within scikit-learn Pipelines:*
+  >
+  > *Our first model, the **Category Predictor**, was trained on the `UpdatedResumeDataSet` containing resumes labeled with their domain categories. It classifies the uploaded resume text into one of 25+ professional categories.*
+  >
+  > *Our second model, the **Screening Predictor**, uses candidate features like experience, education, certifications, project count, and extracted skills to make a recruiter recommendation: **Hire** or **Reject**, accompanied by a confidence percentage."*
+* **Time**: 2:30 - 3:30 (60 seconds)
+
+### Slide 5: Web UI & Demo
+* **Slide Visuals**:
+  * Streamlit Interface layout description: File uploader, text area for Job Description, sliders/inputs for candidate metadata, clear and interactive gauges showing matching percentage.
+* **Speaking Script**:
+  > *"To make this system accessible to non-technical recruiters, I developed a web interface using **Streamlit**. *
+  >
+  > *Recruiters upload a PDF resume, paste the target Job Description, and input minor candidate details. Once they click 'Screen Resume', the app dynamically performs matching, highlights matched vs. missing skills, runs the models in the background, and displays the predicted job category and hiring recommendation in a sleek dashboard."*
+* **Time**: 3:30 - 4:15 (45 seconds)
+
+### Slide 6: Conclusion & Future Work
+* **Slide Visuals**:
+  * Bullet points: Scalability, integration with applicant tracking systems (ATS), upgrading to deep learning models (like BERT or GPT), Q&A.
+* **Speaking Script**:
+  > *"In conclusion, this project demonstrates how machine learning can streamline administrative workloads in HR. *
+  >
+  > *In the future, this system can be scaled to support bulk resume processing, integrated directly into existing Applicant Tracking Systems (ATS), and upgraded using Large Language Models like BERT for contextual understanding of resume content. *
+  >
+  > *Thank you. I am now open to any questions you might have."*
+* **Time**: 4:15 - 5:00 (45 seconds)
+
+---
+
+## ❓ Part 3: 50 Viva Questions & Answers
+
+These questions are organized by category to help you study systematically.
+
+### Category A: NLP & Text Processing (Q1 - Q15)
+
+#### Q1: What is NLP and why is it used in this project?
+* **Answer**: Natural Language Processing (NLP) is a branch of artificial intelligence that helps computers read and understand human language. In this project, it is used to extract plain text from resume PDFs, clean it, extract candidate skills, and represent text as numbers for model classification.
+
+#### Q2: What is the purpose of the `clean_text` function in your code?
+* **Answer**: The raw text extracted from a PDF contains noise like URLs, email addresses, contact numbers, special characters, and random capitalizations. The `clean_text` function uses Regular Expressions (regex) to remove this noise and standardize all text to lowercase, making it cleaner for model analysis.
+
+#### Q3: Explain TF-IDF in simple terms.
+* **Answer**: TF-IDF stands for **Term Frequency-Inverse Document Frequency**. It evaluates how important a word is to a document in a collection. Words that appear frequently in a single resume but rarely in other resumes (like "PyTorch" or "Solidity") get high scores, while common words like "is", "the", or "management" get low scores.
+
+#### Q4: Why did you use `TfidfVectorizer` instead of a simple `CountVectorizer`?
+* **Answer**: `CountVectorizer` simply counts the occurrences of each word, meaning common stop words could dominate. `TfidfVectorizer` penalizes words that appear very frequently across all resumes, highlighting the unique, high-value technical keywords that define a candidate's actual profile.
+
+#### Q5: What is `stop_words="english"` in your vectorizer parameters?
+* **Answer**: It tells the vectorizer to ignore common English words like "a", "an", "the", "in", "of", etc., during tokenization. These words carry no predictive value for determining a candidate's suitability for a job.
+
+#### Q6: How do you extract candidate skills in this project?
+* **Answer**: We have a predefined list of high-demand industry skills (`SKILLS`). We search for these keywords (case-insensitive) inside the cleaned text of the resume and return a matching list.
+
+#### Q7: How is the Job Match Score calculated?
+* **Answer**: It calculates the intersection of the skills found in the candidate's resume and the skills found in the job description:
+  $$\text{Match Score} = \left( \frac{\text{Number of Matched Skills}}{\text{Total Skills in Job Description}} \right) \times 100$$
+
+#### Q8: What library did you use to read the PDF and how does it work?
+* **Answer**: We used `pdfplumber`. It opens the PDF file, iterates page-by-page, and extracts visual characters mapping them to a unified plain-text string, preserving basic layout/readability better than traditional libraries like PyPDF2.
+
+#### Q9: What happens if a recruiter uploads a scanned image PDF of a resume?
+* **Answer**: `pdfplumber` cannot extract text from scanned images since there are no digital font characters embedded (it's just a picture). In our code, we handle this by showing an error message advising the user to upload a text-based PDF.
+* *Note: To solve this, we would need to integrate OCR (Optical Character Recognition) libraries like PyTesseract.*
+
+#### Q10: What are Regular Expressions (Regex) and name one regex pattern used in your code?
+* **Answer**: Regular Expressions are sequences of characters defining a search pattern to find and replace text. For example, `re.sub(r"\S+@\S+", " ", text)` searches for any word containing `@` (which represents an email address) and replaces it with a blank space.
+
+#### Q11: Why is `str(text).lower()` done at the beginning of cleaning?
+* **Answer**: Python is case-sensitive, meaning "Python", "PYTHON", and "python" are treated as three separate words. Converting text to lowercase standardizes it, ensuring consistency.
+
+#### Q12: What is tokenization?
+* **Answer**: Tokenization is the process of breaking down a continuous block of text into smaller individual units, called "tokens" (usually words or subwords).
+
+#### Q13: What does the regex pattern `[^a-zA-Z+#.\s]` do in your project?
+* **Answer**: It acts as a negative character filter. It removes any character that is **NOT** a letter (a-z, A-Z), a plus sign (`+`), a hash symbol (`#`), a period (`.`), or a whitespace (`\s`). This keeps vital terms like "C++" or "C#" or ".NET" intact while removing symbols like brackets, asterisks, and emojis.
+
+#### Q14: How does the system handle multi-word skills like "machine learning"?
+* **Answer**: In our predefined `SKILLS` list, we include multi-word strings like `"machine learning"`. We check if the entire lowercase substring exists in the lowercase resume text.
+
+#### Q15: What are the limitations of keyword-based skill extraction?
+* **Answer**: It lacks semantic understanding. If a resume says *"I have no experience in Kubernetes"*, a keyword matcher will mistakenly extract "Kubernetes" as a skill.
+
+---
+
+### Category B: Machine Learning & Modeling (Q16 - Q30)
+
+#### Q16: What ML algorithm did you use to build the classification models?
+* **Answer**: We used **Logistic Regression** for both the `category_model` and the `screening_model`.
+
+#### Q17: Why choose Logistic Regression over other algorithms like Random Forest or SVM?
+* **Answer**: Logistic Regression is computationally efficient, trains very fast, works exceptionally well with high-dimensional sparse text vectors (TF-IDF features), and provides well-calibrated class probabilities (giving us a clean confidence score for predictions).
+
+#### Q18: What is the target variable for the category prediction model?
+* **Answer**: The target variable is `Category`, which represents the professional domain of the resume (e.g., Data Science, Web Designing, HR, Database, etc.). It is a multi-class classification problem.
+
+#### Q19: What is the target variable for the screening model?
+* **Answer**: The target variable is `Recruiter Decision`, which is binary: `Hire` or `Reject`.
+
+#### Q20: Explain the concept of a scikit-learn Pipeline.
+* **Answer**: A `Pipeline` bundles preprocessing steps and an estimator (classifier) into a single object. This avoids data leakage during cross-validation/testing and ensures that test data goes through the exact same preprocessing sequence as the training data.
+
+#### Q21: What is a `ColumnTransformer` and why is it used in the screening model?
+* **Answer**: The screening dataset contains mixed feature types: text (`Skills`), categorical strings (`Education`, `Certifications`, `Job Role`), and numerical columns (`Experience`, `Projects Count`). `ColumnTransformer` allows us to apply different preprocessing pipelines to different columns simultaneously.
+
+#### Q22: How did you handle missing values in your datasets?
+* **Answer**: We used `SimpleImputer`. In the screening model pipeline, we impute missing categorical features (like Certifications) using the `most_frequent` strategy (mode) and missing numeric features using the `median` strategy.
+
+#### Q23: Why did you use `OneHotEncoder` and how does `handle_unknown="ignore"` help?
+* **Answer**: `OneHotEncoder` converts categorical features like job roles or degrees into binary dummy columns. Setting `handle_unknown="ignore"` ensures that if a new resume contains an unseen category (e.g., a degree like "B.FA"), the encoder will not crash; it will simply assign all zeros to that feature category.
+
+#### Q24: What is data leakage and how do Pipelines prevent it?
+* **Answer**: Data leakage occurs when information from the test dataset is inadvertently used to train the model (e.g., calculating the global TF-IDF vocabulary on both train and test sets). Pipelines fit vectorizers/scalers *only* on the training split, keeping the test split completely unseen until inference.
+
+#### Q25: Why did you set `class_weight="balanced"` in the screening model's Logistic Regression?
+* **Answer**: In our `AI_Resume_Screening.csv` dataset, there are 812 "Hire" cases and only 188 "Reject" cases. This is an **imbalanced dataset**. Setting `class_weight="balanced"` automatically penalizes errors on the minority class ("Reject") more heavily, ensuring the model does not become biased towards predicting "Hire" for everyone.
+
+#### Q26: What is a train-test split and what ratio did you use?
+* **Answer**: It is the process of dividing the dataset into two subsets: one to train the model, and one to evaluate its performance on unseen data. We used an **80:20 split** (80% training, 20% testing).
+
+#### Q27: What does the `stratify=y` parameter do in `train_test_split`?
+* **Answer**: Stratification ensures that the train and test splits have the same proportion of target classes as the original dataset. This is highly important for imbalanced data, ensuring the model is evaluated on a representative test split.
+
+#### Q28: How do you extract class probability/confidence in your model?
+* **Answer**: We use the `predict_proba()` method of the model pipeline. It outputs an array of probabilities for each class. We map these probabilities to the predicted class label to extract the confidence score.
+
+#### Q29: What is Logistic Regression’s underlying mathematical equation?
+* **Answer**: It passes a linear combination of inputs ($z = \beta_0 + \beta_1 x_1 + \dots$) through the Sigmoid function to output a probability value between 0 and 1:
+  $$P(y=1|x) = \sigma(z) = \frac{1}{1 + e^{-z}}$$
+
+#### Q30: What parameter ensures the Logistic Regression converges on text datasets?
+* **Answer**: We increased the `max_iter` parameter to `2000` (default is `100`). Text data represented via TF-IDF results in high-dimensional feature spaces, which require more optimization iterations to reach convergence.
+
+---
+
+### Category C: Code, Framework & Architecture (Q31 - Q40)
+
+#### Q31: What framework did you use to build the web application and why?
+* **Answer**: We used **Streamlit**. Streamlit is an open-source Python framework that allows developers to build interactive web interfaces for data science and machine learning models in a few lines of pure Python, without needing HTML, CSS, or Javascript.
+
+#### Q32: What is the purpose of `joblib` in this project?
+* **Answer**: `joblib` is used to serialize (save) and deserialize (load) Python objects, specifically our trained Scikit-Learn pipeline models. Saving the models allows us to deploy them in production without having to retrain them every time the web page refreshes.
+
+#### Q33: How does Streamlit run the code? Does it run top-to-bottom?
+* **Answer**: Yes, Streamlit runs the script from top to bottom every time a user interacts with a widget (like clicking a button, uploading a file, or entering text).
+
+#### Q34: What does `st.set_page_config` do?
+* **Answer**: It configures the browser tab properties of the app, such as the page title (which shows on the tab) and the page icon (e.g., `📄`). It must be the very first Streamlit command called.
+
+#### Q35: Explain how columns are made in Streamlit.
+* **Answer**: We use `col1, col2 = st.columns(2)`. This divides the layout horizontally into two equal-width containers. We can then place widgets inside them using `with col1:` and `with col2:`.
+
+#### Q36: What is the role of `st.button` and how does the screening logic trigger?
+* **Answer**: `st.button("Screen Resume")` displays a clickable button. When the user clicks it, the app re-evaluates top-to-bottom and the button evaluates to `True`, triggering the nested PDF parsing, cleaning, categorization, and prediction logic.
+
+#### Q37: How do you handle file uploads in Streamlit?
+* **Answer**: We use `st.file_uploader(label, type=["pdf"])`. It provides a drag-and-drop box where the user can upload a file, returning a file-like buffer object that Python libraries can read.
+
+#### Q38: What does the file `preprocess.py` do?
+* **Answer**: It contains the modular `clean_text` function. By keeping it separate, we can easily import it into both our notebook training pipeline and our production Streamlit script (`app.py`), ensuring code reusability and consistency.
+
+#### Q39: What is `st.expander` and where did you use it?
+* **Answer**: `st.expander` creates a collapsable container that users can click to open or hide. We used it at the bottom of our app dashboard to let users view the raw, extracted text of the resume without cluttering the screen.
+
+#### Q40: What happens if you modify a file in your workspace? Does Streamlit auto-update?
+* **Answer**: Yes. When Streamlit detects changes to the underlying source files, it prompts the user in the browser with an option to "Always rerun" or "Rerun" the application to load the new code.
+
+---
+
+### Category D: Evaluation, Validation & Improvements (Q41 - Q50)
+
+#### Q41: How do you evaluate the classification performance of your models?
+* **Answer**: We use metrics like **Precision**, **Recall**, and **F1-Score** generated via Scikit-Learn’s `classification_report`, alongside overall **Accuracy**.
+
+#### Q42: What is Precision and why is it important in recruitment?
+* **Answer**: Precision answers: *"Out of all candidates predicted as Hires, how many were actually suitable?"* High precision means the recruiter won't waste time interviewing unqualified candidates.
+
+#### Q43: What is Recall and why is it important here?
+* **Answer**: Recall answers: *"Out of all actual suitable candidates, how many did the model correctly identify?"* High recall ensures the system doesn't miss out on excellent talent by falsely rejecting them.
+
+#### Q44: What is the F1-Score?
+* **Answer**: The F1-Score is the harmonic mean of Precision and Recall. It provides a single balanced metric, especially useful when assessing imbalanced datasets:
+  $$\text{F1} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
+
+#### Q45: What is a Confusion Matrix?
+* **Answer**: A confusion matrix is a table that visualizes model performance by showing the counts of True Positives, True Negatives, False Positives, and False Negatives.
+
+#### Q46: How would you improve the models if they show low accuracy?
+* **Answer**: 
+  1. Gather more training data.
+  2. Perform hyperparameter tuning on the Logistic Regression classifier (adjusting the regularization parameter `C`).
+  3. Try other advanced algorithms, such as XGBoost, Random Forest, or deep learning embeddings (e.g., Word2Vec, BERT).
+  4. Perform more detailed feature engineering on the resumes.
+
+#### Q47: What is overfitting and how do you prevent it?
+* **Answer**: Overfitting occurs when a model learns the training data too well, including its noise, and fails to generalize to new, unseen resumes. We prevent it by using regularization (L1/L2 penalties in Logistic Regression), keeping the model simple, and evaluating using cross-validation.
+
+#### Q48: Why did the training classification report show some categories with 0.0 Precision and Recall?
+* **Answer**: Some classes in the dataset have extremely few samples (e.g., only 1 or 2 samples in the test split). If the model fails to predict these rare classes, they receive score values of `0.0`. This is a classic symptom of class imbalance, which can be fixed by collecting more data for these categories or applying oversampling techniques like SMOTE.
+
+#### Q49: What is the difference between supervised and unsupervised learning?
+* **Answer**: Supervised learning trains on labeled data (where input matches a known output, like our resumes labeled with categories). Unsupervised learning finds hidden patterns in unlabeled data (like grouping candidates using clustering algorithms without predefined category names). Our project uses **Supervised Learning**.
+
+#### Q50: If this model is put in production, why is human supervision still necessary?
+* **Answer**: AI models learn from historical data, which might contain systemic recruitment biases (e.g., favoring specific universities or degrees). Furthermore, models cannot evaluate soft skills, cultural fit, or emotional intelligence. Therefore, our UI contains a warning stating that the AI is only a recommendation tool, and a human recruiter must make the final decision.
