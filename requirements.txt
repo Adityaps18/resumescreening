@@ -1,5 +1,10 @@
-joblib
-pandas
-pdfplumber
-scikit-learn
-streamlit
+# Core ML & NLP Frameworks
+scikit-learn>=1.3.0
+pandas>=2.0.0
+numpy>=1.24.0
+joblib>=1.3.0
+
+# Document Parsing & UI
+pdfplumber>=0.10.0
+streamlit>=1.28.0
+
