@@ -27,7 +27,7 @@ from src.explainability import explain_prediction
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="AI Resume Screening & Job Fit System",
-    page_icon="ðŸ“„",
+    page_icon="R",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -140,12 +140,12 @@ with st.sidebar:
     st.title("System Control")
     
     if models_ready:
-        st.success("ðŸŸ¢ Category NLP Model Loaded")
+        st.success("Category NLP Model Loaded")
     else:
-        st.warning("ðŸŸ¡ Standard Rule & Keyword Engine Active (Category model not found)")
+        st.warning("Standard Rule & Keyword Engine Active (Category model not found)")
 
     st.markdown("---")
-    st.subheader("ðŸ“– Sample Job Description Presets")
+    st.subheader("Sample Job Description Presets")
     sample_jds = {
         "Data Scientist / ML Engineer": (
             "We are seeking a Data Scientist with 3+ years of experience in Python, SQL, and Machine Learning. "
@@ -185,13 +185,13 @@ with st.sidebar:
     )
 
     st.markdown("---")
-    st.caption("AI Resume Screening System v2.5 â€¢ JD Matching Edition")
+    st.caption("AI Resume Screening System v2.5 - JD Matching Edition")
 
 
 # ---------------------------------------------------------
 # Main UI Header
 # ---------------------------------------------------------
-st.title("ðŸ“„ Intelligent AI Resume Screening & JD Fit Assessment")
+st.title("Intelligent AI Resume Screening & JD Fit Assessment")
 st.markdown(
     "Automated resume analysis, candidate-to-job matching, skill gap identification, "
     "and explainable AI screening recommendations tailored directly to your Job Description."
@@ -329,10 +329,10 @@ if resume_text.strip():
     # Interactive Tabs
     # ---------------------------------------------------------
     tab1, tab2, tab3, tab4 = st.tabs([
-        "ðŸ“Š Screening Overview & Fit",
-        "ðŸŽ¯ Skill & Gap Analysis",
-        "ðŸ’¡ Recruiter & Candidate Insights",
-        "ðŸ“„ Parsed Profile & Text"
+        "Screening Overview & Fit",
+        "Skill & Gap Analysis",
+        "Recruiter & Candidate Insights",
+        "Parsed Profile & Text"
     ])
 
     # ------------------ TAB 1: OVERVIEW ------------------
@@ -373,7 +373,7 @@ if resume_text.strip():
         col_s1, col_s2, col_s3 = st.columns(3)
 
         with col_s1:
-            st.markdown(f"#### ðŸŸ¢ Matched Skills ({len(match_result['matched_skills'])})")
+            st.markdown(f"#### Matched Skills ({len(match_result['matched_skills'])})")
             if match_result["matched_skills"]:
                 badges_html = "".join([f'<span class="badge-matched">{s}</span>' for s in match_result["matched_skills"]])
                 st.markdown(f'<div class="badge-container">{badges_html}</div>', unsafe_allow_html=True)
@@ -381,18 +381,18 @@ if resume_text.strip():
                 st.info("No direct skill matches found between resume and job description.")
 
         with col_s2:
-            st.markdown(f"#### ðŸ”´ Missing Required Skills ({len(match_result['missing_skills'])})")
+            st.markdown(f"#### Missing Required Skills ({len(match_result['missing_skills'])})")
             if match_result["missing_skills"]:
                 badges_html = "".join([f'<span class="badge-missing">{s}</span>' for s in match_result["missing_skills"]])
                 st.markdown(f'<div class="badge-container">{badges_html}</div>', unsafe_allow_html=True)
             else:
                 if has_jd:
-                    st.success("ðŸŽ‰ All required skills from the job description are present in the resume!")
+                    st.success("All required skills from the job description are present in the resume!")
                 else:
                     st.write("No job description provided.")
 
         with col_s3:
-            st.markdown(f"#### ðŸ”µ Additional Candidate Skills ({len(match_result['extra_skills'])})")
+            st.markdown(f"#### Additional Candidate Skills ({len(match_result['extra_skills'])})")
             if match_result["extra_skills"]:
                 badges_html = "".join([f'<span class="badge-extra">{s}</span>' for s in match_result["extra_skills"]])
                 st.markdown(f'<div class="badge-container">{badges_html}</div>', unsafe_allow_html=True)
@@ -401,22 +401,22 @@ if resume_text.strip():
 
     # ------------------ TAB 3: INSIGHTS & INTERVIEW QUESTIONS ------------------
     with tab3:
-        st.subheader("ðŸ’¡ Explainable AI Factors & Actionable Insights")
+        st.subheader("Explainable AI Factors & Actionable Insights")
         
-        st.markdown("#### ðŸ” Decision Factors Breakdown")
+        st.markdown("#### Decision Factors Breakdown")
         for reason in explanation["summary_reasons"]:
-            st.markdown(f"â€¢ {reason}")
+            st.markdown(f"- {reason}")
 
         st.markdown("---")
-        st.markdown("#### ðŸŽ¯ Tailored Technical Screening Questions")
+        st.markdown("#### Tailored Technical Screening Questions")
         st.caption("Auto-generated questions for technical recruiters based on candidate's skill matches and identified gaps:")
         for idx, q in enumerate(explanation["interview_questions"], 1):
             st.markdown(f"**{idx}.** {q}")
 
         st.markdown("---")
-        st.markdown("#### ðŸš€ Candidate Resume Improvement Tips")
+        st.markdown("#### Candidate Resume Improvement Tips")
         for tip in explanation["improvement_tips"]:
-            st.markdown(f"â€¢ {tip}")
+            st.markdown(f"- {tip}")
 
     # ------------------ TAB 4: PARSED DETAILS & RAW TEXT ------------------
     with tab4:
@@ -438,18 +438,17 @@ if resume_text.strip():
         st.table(meta_df)
 
 
-        with st.expander("ðŸ“„ View Extracted Text Content", expanded=False):
+        with st.expander("View Extracted Text Content", expanded=False):
             st.text_area("Resume Text Content", value=resume_text, height=300)
 
     # Compliance Disclaimer
     st.markdown("---")
     st.caption(
-        "âš–ï¸ **Ethical AI Disclaimer:** This system provides automated decision-support metrics and candidate "
+        "**Ethical AI Disclaimer:** This system provides automated decision-support metrics and candidate "
         "relevance rankings based on job requirements. Final hiring decisions must be reviewed by authorized human recruiters."
     )
 
 else:
     # Empty State Guidance
-    st.info("ðŸ‘† Please upload a PDF resume or paste resume text in the left panel to begin screening against your target Job Description.")
-
+    st.info("Please upload a PDF resume or paste resume text in the left panel to begin screening against your target Job Description.")
 
